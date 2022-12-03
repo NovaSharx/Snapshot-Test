@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
+import GitHubCard from './GitHubCard';
 
 function App() {
+  const [gitHubData, setGitHubData] = useState('')
+
+  useEffect(() => {
+    fetch('https://api.github.com/users/NovaSharx')
+      .then(res => res.json())
+      .then(data => {
+        setGitHubData(data)
+      })
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Github Profile Info:</h1>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <GitHubCard gitHubData={gitHubData} />
+      </div>
     </div>
   );
 }
